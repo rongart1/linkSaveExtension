@@ -5,13 +5,20 @@ body{
     gap: 10px;
     padding: 15px;
     font-family: Arial, Helvetica, sans-serif;
+    
 }
-#saved-pages{
+#index{
+    max-width: 300px;
+}
+#folder{
+    min-width: 500px;
+}
+ul{
     list-style-type:none;
     margin: 0;
     padding: 0;
 }
-#saved-pages li{
+li{
     display:flex;
     flex: 1;
     margin-bottom: 10px;
@@ -30,6 +37,15 @@ body{
     width: 20px;
     height:20px;
     margin:0;
+}
+
+#back-button{
+    width: 30px;
+    height:30px;
+    margin:0;
+    position: absolute;
+    left: 10px;
+    top: 10px;
 }
 
 
