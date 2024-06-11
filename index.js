@@ -27,16 +27,24 @@ function reload() {
     localStorage.setItem("link-folders", JSON.stringify(myFolders));
     folderList.innerHTML = renderFoldersToHtml(myFolders);
     addFolderBtnActions();
+    addEditEventListeners();
     addRemoveEventListeners(); // Add this line to re-add event listeners for remove buttons
 }
 
 function renderFoldersToHtml(folders) {
     return folders.map((folderName, index) => `
         <li>
-            <button class="remove-btn" data-index="${index}">
-                <img class="delete-icon" src="icons/delete.png">
+        <button id="${folderName}" class="folder-btn">${folderName}</button>
+
+            <button  class="remove-btn action-btn" data-index="${index}">
+                <img class="action-icon" src="icons/delete.png">
             </button>
-            <button id="${folderName}" class="folder-btn">${folderName}</button>
+
+            <button class="edit-btn action-btn" data-index="${index}">
+                        <img class="action-icon" src="icons/edit.png">
+            </button>
+        
+            
         </li>`).join('');
 }
 
@@ -45,6 +53,20 @@ function removeItem(event) {
     const folder =myFolders.splice(index, 1);
     localStorage.removeItem(`${folder}-Links`)
     reload();
+}
+
+function changeName(event){
+    const index = event.target.dataset.index;
+    const input = window.prompt("Change folder name", myFolders[index]);
+    const prev = myFolders[index] 
+    myFolders[index] = input? input : prev;
+    reload();
+}
+function addEditEventListeners() {
+    const editBtns = document.querySelectorAll(".edit-btn");
+    editBtns.forEach(btn => {
+        btn.addEventListener("click", changeName);
+    });
 }
 
 function addRemoveEventListeners() {

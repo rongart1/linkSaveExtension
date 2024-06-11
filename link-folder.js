@@ -21,8 +21,10 @@ document.getElementById("folder-name").innerHTML=`${folderName} links`
 function addPage() {
     browser.tabs.query({ currentWindow: true, active: true }).then(tabs => {
         const currentPageUrl = tabs[0].url;
+        const currentPageTitle = tabs[0].title;
+        
         if (!myLinksArr.includes(currentPageUrl)) {
-            myLinksArr.push(currentPageUrl);
+            myLinksArr.push({ url: currentPageUrl, title: currentPageTitle });
             localStorage.setItem(`${folderName}-Links`, JSON.stringify(myLinksArr));
             reLoadLinkList();
         } else {
@@ -37,11 +39,22 @@ function addPage() {
 function reLoadLinkList() {
     savedPagesList.innerHTML = linkListToHtml(myLinksArr);
     addRemoveEventListeners();
+    addEditEventListeners();
 }
 
-function linkListToHtml(list) {
-    return list.map((item, index) => {
-        return `<li><button class="remove-btn" data-index="${index}"><img class="delete-icon" src="icons/delete.png"></button><a href="${item}" target="_blank">${item}</a></li>`;
+function linkListToHtml(linksList) {
+    return linksList.map((link, index) => {
+        return `<li>
+                    <a href="${link.url}" target="_blank">${link.title}</a>
+                    
+                    <button class="remove-btn action-btn" data-index="${index}">
+                        <img class="action-icon" src="icons/delete.png">
+                    </button>
+                    <button class="edit-btn action-btn" data-index="${index}">
+                        <img class="action-icon" src="icons/edit.png">
+                    </button>
+
+                </li>`;
     }).join('');
 }
 
@@ -57,11 +70,25 @@ function removeItem(event) {
     localStorage.setItem(`${folderName}-Links`, JSON.stringify(myLinksArr));
     reLoadLinkList();
 }
+function changeName(event){
+    const index = event.target.dataset.index;
+    const input = window.prompt("Change folder name", myLinksArr[index].title);
+    myLinksArr[index].title = input ? input : myLinksArr[index].title;
+    localStorage.setItem(`${folderName}-Links`, JSON.stringify(myLinksArr));
+    reLoadLinkList();
+}
 
 function addRemoveEventListeners() {
     const removeBtns = document.querySelectorAll(".remove-btn");
     removeBtns.forEach(btn => {
         btn.addEventListener("click", removeItem);
+    });
+}
+
+function addEditEventListeners() {
+    const editBtns = document.querySelectorAll(".edit-btn");
+    editBtns.forEach(btn => {
+        btn.addEventListener("click", changeName);
     });
 }
 

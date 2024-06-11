@@ -22,21 +22,19 @@ li{
     display:flex;
     flex: 1;
     margin-bottom: 10px;
-    margin: 5px;
+    align-items: center;
+
+}
+li a{
+    flex: 1;
+}
+li .folder-btn{
+    flex: 1;
 }
 
-.remove-btn{
-    border-radius: 5px;
-    border: none;
-    color: white;
-    margin-right: 5px;
-    padding: 0;
-}
-
-.delete-icon{
-    width: 20px;
-    height:20px;
-    margin:0;
+.action-icon{
+    width: 15px;
+    height:15px;
 }
 
 #back-button{
@@ -50,3 +48,12 @@ li{
 
 
 
+li .action-btn{
+    border: none;
+    background-color: transparent;
+    margin-left: auto;
+}
+li .action-btn:hover{
+    border: none;
+    background-color: lightblue;
+}
